@@ -1,15 +1,14 @@
-your_project/
-├─ train.py                 # 入口（不使用 argparse），所有參數在這檔案頂端 CONFIG 可改
-├─ hooks.py                 # 你只需在這檔實作 build_model / build_dataloaders / evaluate
-|
-├─ tools/
-|   ├─ utils.py              # seed / device / DDP / env
-|   ├─ io.py                 # JSON/CSV/Checkpoint 存取
-|   └─ kfold.py              # K-fold 分割
-|
-└─ log/
-    ├─ run_model**.log
-    └─ run.pid
+.
+├── train.py              # Training entry point
+├── generate.py           # Image generation script
+├── hooks.py              # Model, dataloader, and evaluation implementation
+├── configs/
+│   └── exp.yaml         # Configuration file
+├── tools/
+│   ├── utils.py         # Utility functions
+│   ├── io.py            # I/O operations
+│   └── kfold.py         # K-fold utilities
+└── data/                # MNIST dataset (auto-downloaded)
 
 ## venv
     ```bash
@@ -43,17 +42,17 @@ your_project/
 ## 背景執行 
 - 每個 experiment 都用不同的 log/run_model**.log 和 log/run**.pid 檔案來區分
 - 單 GPU
-    `nohup python train.py > log/run_model1.log 2>&1 & echo $! > log/run1.pid &`
+    `nohup python train.py > log/run_ddpm.log 2>&1 & echo $! > log/run_ddpm.pid &`
 - 多 GPU (以 0,1 兩張卡為例)
-    `CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --standalone train.py > log/run_model2.log 2>&1 & echo $! > log/run2.pid &`
+    `CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --standalone train.py > log/run_ddpm_dist.log 2>&1 & echo $! > log/run_ddpm_dist.pid &`
 
 ## 檢查還在不在跑：
-    way1. `ps -p "$(cat log/run1.pid)" -o pid,etime,cmd`      // 用 PID 查
+    way1. `ps -p "$(cat log/run_ddpm.pid)" -o pid,etime,cmd`      // 用 PID 查
     way2. `pgrep -a -f 'python .*train.py'`              // 或比對檔名
 
 ## 停止： 
 - kill PID & remove related PID file
-    `kill "$(cat log/run1.pid)" && rm log/run1.pid`
+    `kill "$(cat log/run_ddpm.pid)" && rm log/run_ddpm.pid`
 
 ## 注意
 1. 先處理 ==git repo== 
