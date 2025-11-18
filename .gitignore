@@ -10,7 +10,7 @@ generated_images/
 runs/
 log/
 **/mnist.zip
-
+*.zip
 
 # Distribution / packaging
 .Python
