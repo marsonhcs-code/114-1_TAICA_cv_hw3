@@ -1,0 +1,2 @@
+# 114-1_TAICA_cv_hw3
+MNIST
