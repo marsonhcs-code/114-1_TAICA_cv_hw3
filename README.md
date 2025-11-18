@@ -8,10 +8,10 @@ MNIST
 |
 ├── configs/
 │   └── exp.yaml             # Configuration file
+├── runs/ddpm_mnist/         # Training outputs (checkpoints, logs, etc.)
 ├── data/                    # MNIST dataset (auto-downloaded)
 ├── generated_images/        # Generated images will be saved here
-├── plots/                   # Training curves will be saved here
-├── runs/ddpm_mnist/         # Training outputs (checkpoints, logs, etc.)
+├── report_figures/          # Architecture and other figures
 |
 └── requirements.txt         # Python dependencies
 
@@ -39,6 +39,8 @@ MNIST
 
 # plot loss curve
     python plot_training_curves.py --samples
+# plot architecture
+    python plot_architecture.py
 ```
 
 ## Dataset
